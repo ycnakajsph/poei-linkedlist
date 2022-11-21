@@ -8,9 +8,14 @@
 
 #include "../linked_list.h"
 
-void test_dummy(){
+void test_get_new_elem(){
 	
-	CU_ASSERT(0 == 0);
+	linked_list* elem = get_new_elem(12);
+
+	CU_ASSERT( elem->data == 12);
+	CU_ASSERT( elem->next == NULL);
+
+	free(elem);
 }
 
 int init_suite(void) { return 0; }
@@ -33,7 +38,7 @@ int main()
 
 	/* add the tests to the suite */
 	if (
-		NULL == CU_add_test(pSuite, "test_heap_init()", test_dummy)
+		NULL == CU_add_test(pSuite, "test_get_new_elem()", test_get_new_elem)
 	)
 	{
 		CU_cleanup_registry();
