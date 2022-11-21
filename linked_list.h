@@ -18,4 +18,14 @@ void ll_swap_index(linked_list** list, int index0, int index1);
 void ll_reverse(linked_list **list);
 void ll_remove_data_sup(linked_list** list, int value);
 
+
+typedef struct double_linked_list{
+	int data;
+	struct double_linked_list* prev;
+	struct double_linked_list* next;
+} double_linked_list;
+
+double_linked_list* d_ll_get_new_elem(int data);
+void d_ll_push_elem(double_linked_list* list, double_linked_list* elem);
+
 #endif
