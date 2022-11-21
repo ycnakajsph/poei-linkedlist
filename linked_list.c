@@ -28,7 +28,7 @@ void ll_pop(linked_list* list){
 	int i = 0;
 
 	if(pt->next == NULL){
-		printf("ain't not poping!\n");
+		printf("ain't no poping!\n");
 		return;
 	}
 
@@ -40,4 +40,27 @@ void ll_pop(linked_list* list){
 
 	prev->next = NULL;
 	free(pt);
+}
+
+void ll_free(linked_list* list){
+	linked_list* pt = list;
+	linked_list* pt_prev;
+
+	while (pt != NULL){
+		pt_prev = pt;
+		pt = pt->next;
+		free(pt_prev);
+	}
+}
+
+int ll_length(linked_list* list){
+	linked_list* pt = list;
+	int len = 0;
+
+	while (pt != NULL){
+		pt = pt->next;
+		len++;
+	}
+
+	return len;
 }
