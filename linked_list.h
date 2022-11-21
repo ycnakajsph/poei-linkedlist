@@ -11,5 +11,7 @@ void ll_push_elem(linked_list* list, linked_list* elem);
 void ll_pop(linked_list* list);
 void ll_free(linked_list* list);
 int ll_length(linked_list* list);
+void ll_add_index(linked_list** list,int index,linked_list* elem);
+void ll_print(linked_list* list);
 
 #endif

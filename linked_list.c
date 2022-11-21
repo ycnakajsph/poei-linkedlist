@@ -64,3 +64,39 @@ int ll_length(linked_list* list){
 
 	return len;
 }
+
+void ll_print(linked_list* list){
+	linked_list* pt;
+	pt = list;
+
+	while (pt != NULL){
+		printf("[%d]->",pt->data);
+		pt = pt->next;
+	}
+	printf("\n");
+}
+
+void ll_add_index(linked_list** list,int index,linked_list* elem){
+	linked_list* pt = *list;
+	linked_list* tmp;
+	int id = 0;
+	int len;
+
+	if(index == 0){
+		elem->next = *list;
+		*list = elem;
+		return;
+	}
+
+	len = ll_length(*list);
+
+	while (pt != NULL && id != index - 1 && id < len-1){
+		pt = pt->next;
+		id++;
+	}
+
+	tmp = pt->next;
+	pt->next = elem;
+	elem->next = tmp;
+
+}

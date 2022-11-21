@@ -101,6 +101,91 @@ void test_ll_length(){
 
 }
 
+void test_ll_add_index(){
+
+	linked_list* HEAD = ll_get_new_elem(11);
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(13);
+	linked_list* elem_add = ll_get_new_elem(100);
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+
+	/*ll_print(HEAD);*/
+	ll_add_index(&HEAD,1,elem_add);
+	/*ll_print(HEAD);*/
+
+	CU_ASSERT(ll_length(HEAD) == 4);
+	CU_ASSERT(HEAD->next == elem_add);
+	CU_ASSERT(elem_add->next == elem0);
+
+	ll_free(HEAD);
+}
+
+void test_ll_add_index_too_big(){
+
+	linked_list* HEAD = ll_get_new_elem(11);
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(13);
+	linked_list* elem_add = ll_get_new_elem(100);
+	linked_list* pt = HEAD;
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+
+	/*ll_print(HEAD);*/
+	ll_add_index(&HEAD,5,elem_add);
+	/*ll_print(HEAD);*/
+
+	CU_ASSERT(ll_length(HEAD) == 4);
+
+	CU_ASSERT( pt->data == 11);
+	CU_ASSERT( pt->next == elem0);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 12);
+	CU_ASSERT( pt->next == elem1);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 13);
+	CU_ASSERT( pt->next == elem_add);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 100);
+	CU_ASSERT( pt->next == NULL);
+
+	ll_free(HEAD);
+}
+
+void test_ll_add_index_first(){
+
+	linked_list* HEAD = ll_get_new_elem(11);
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(13);
+	linked_list* elem_add = ll_get_new_elem(100);
+	linked_list* pt;
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+
+	/*ll_print(HEAD);*/
+	ll_add_index(&HEAD,0,elem_add);
+	/*ll_print(HEAD);*/
+
+	pt = HEAD;
+	CU_ASSERT(ll_length(HEAD) == 4);
+
+	CU_ASSERT( pt->data == 100);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 11);
+	CU_ASSERT( pt->next == elem0);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 12);
+	CU_ASSERT( pt->next == elem1);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 13);
+	CU_ASSERT( pt->next == NULL);
+
+	ll_free(HEAD);
+}
+
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }
 
@@ -126,7 +211,10 @@ int main()
 		NULL == CU_add_test(pSuite, "test_ll_pop()", test_ll_pop)||
 		NULL == CU_add_test(pSuite, "test_ll_pop_empty()", test_ll_pop_empty)||
 		NULL == CU_add_test(pSuite, "test_ll_free()", test_ll_free)||
-		NULL == CU_add_test(pSuite, "test_ll_length()", test_ll_length)
+		NULL == CU_add_test(pSuite, "test_ll_length()", test_ll_length)||
+		NULL == CU_add_test(pSuite, "test_ll_add_index()", test_ll_add_index)||
+		NULL == CU_add_test(pSuite, "test_ll_add_index_too_big()", test_ll_add_index_too_big)||
+		NULL == CU_add_test(pSuite, "test_ll_add_index_first()", test_ll_add_index_first)
 	)
 	{
 		CU_cleanup_registry();
