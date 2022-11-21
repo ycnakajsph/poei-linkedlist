@@ -47,6 +47,37 @@ void test_d_ll_push_elem(){
 }
 
 
+void test_d_ll_pop(){
+
+	double_linked_list* HEAD = d_ll_get_new_elem(11);
+	double_linked_list* elem0 = d_ll_get_new_elem(12);
+	double_linked_list* elem1 = d_ll_get_new_elem(13);
+
+	d_ll_push_elem(HEAD,elem0);
+	d_ll_push_elem(HEAD,elem1);
+
+	d_ll_pop(HEAD);
+
+	CU_ASSERT(elem0->next == NULL);
+	CU_ASSERT(HEAD->next == elem0);
+
+	free(elem0);
+	free(HEAD);
+}
+
+void test_d_ll_free(){
+
+	double_linked_list* HEAD = d_ll_get_new_elem(11);
+	double_linked_list* elem0 = d_ll_get_new_elem(12);
+	double_linked_list* elem1 = d_ll_get_new_elem(13);
+
+	d_ll_push_elem(HEAD,elem0);
+	d_ll_push_elem(HEAD,elem1);
+
+	d_ll_free(HEAD); // Usefull only with valgrind
+
+}
+
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }
 
@@ -68,7 +99,9 @@ int main()
 	/* add the tests to the suite */
 	if (
 		NULL == CU_add_test(pSuite, "test_d_ll_get_new_elem()", test_d_ll_get_new_elem) ||
-		NULL == CU_add_test(pSuite, "test_d_ll_push_elem()", test_d_ll_push_elem)
+		NULL == CU_add_test(pSuite, "test_d_ll_push_elem()", test_d_ll_push_elem)||
+		NULL == CU_add_test(pSuite, "test_d_ll_pop()", test_d_ll_pop)||
+		NULL == CU_add_test(pSuite, "test_d_ll_free()", test_d_ll_free)
 	)
 	{
 		CU_cleanup_registry();

@@ -12,7 +12,6 @@ double_linked_list* d_ll_get_new_elem(int data){
 	return new_elem;
 }
 
-
 void d_ll_push_elem(double_linked_list* list, double_linked_list* elem){
 	double_linked_list* pt = list;
 
@@ -23,4 +22,58 @@ void d_ll_push_elem(double_linked_list* list, double_linked_list* elem){
 	pt->next = elem;
 	elem->prev = pt;
 
+}
+
+
+void d_ll_pop(double_linked_list* list){
+	double_linked_list* pt = list;
+
+	if(pt->next == NULL){
+		return;
+	}
+
+	while(pt->next != NULL){
+		pt = pt->next;
+	}
+
+	pt->prev->next = NULL;
+	free(pt);
+}
+
+
+void d_ll_free(double_linked_list* list){
+	double_linked_list* pt = list;
+	double_linked_list* pt_prev;
+
+	while (pt != NULL){
+		pt_prev = pt;
+		pt = pt->next;
+		free(pt_prev);
+	}
+
+}
+
+
+void d_ll_print(double_linked_list* list){
+	double_linked_list* pt;
+	pt = list;
+
+	while (pt != NULL){
+		printf("[%d]<->",pt->data);
+		pt = pt->next;
+	}
+	printf("\n");
+}
+
+
+int d_ll_length(double_linked_list* list){
+	double_linked_list* pt = list;
+	int len = 0;
+
+	while (pt != NULL){
+		pt = pt->next;
+		len++;
+	}
+
+	return len;
 }

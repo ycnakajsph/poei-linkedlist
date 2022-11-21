@@ -27,5 +27,9 @@ typedef struct double_linked_list{
 
 double_linked_list* d_ll_get_new_elem(int data);
 void d_ll_push_elem(double_linked_list* list, double_linked_list* elem);
+void d_ll_pop(double_linked_list* list);
+void d_ll_free(double_linked_list* list);
+void d_ll_print(double_linked_list* list);
+int d_ll_length(double_linked_list* list);
 
 #endif
