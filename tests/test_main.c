@@ -8,14 +8,67 @@
 
 #include "../linked_list.h"
 
-void test_get_new_elem(){
+void test_ll_get_new_elem(){
 	
-	linked_list* elem = get_new_elem(12);
+	linked_list* elem = ll_get_new_elem(12);
 
 	CU_ASSERT( elem->data == 12);
 	CU_ASSERT( elem->next == NULL);
 
 	free(elem);
+}
+
+void test_ll_push_elem(){
+	
+	linked_list* HEAD = ll_get_new_elem(11);
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(13);
+	linked_list* pt = HEAD;
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+
+	CU_ASSERT( pt->data == 11);
+	CU_ASSERT( pt->next == elem0);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 12);
+	CU_ASSERT( pt->next == elem1);
+	pt = pt->next;
+	CU_ASSERT( pt->data == 13);
+	CU_ASSERT( pt->next == NULL);
+
+	free(elem0);
+	free(elem1);
+	free(HEAD);
+}
+
+void test_ll_pop(){
+	
+	linked_list* HEAD = ll_get_new_elem(11);
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(13);
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+
+	ll_pop(HEAD);
+
+	CU_ASSERT(elem0->next == NULL);
+	CU_ASSERT(HEAD->next == elem0);
+
+	free(elem0);
+	free(HEAD);
+}
+
+void test_ll_pop_empty(){
+	
+	linked_list* HEAD = ll_get_new_elem(11);
+
+	ll_pop(HEAD);
+
+	CU_ASSERT(HEAD->next == NULL);
+
+	free(HEAD);
 }
 
 int init_suite(void) { return 0; }
@@ -38,7 +91,10 @@ int main()
 
 	/* add the tests to the suite */
 	if (
-		NULL == CU_add_test(pSuite, "test_get_new_elem()", test_get_new_elem)
+		NULL == CU_add_test(pSuite, "test_ll_get_new_elem()", test_ll_get_new_elem) ||
+		NULL == CU_add_test(pSuite, "test_ll_push_elem()", test_ll_push_elem)||
+		NULL == CU_add_test(pSuite, "test_ll_pop()", test_ll_pop)||
+		NULL == CU_add_test(pSuite, "test_ll_pop_empty()", test_ll_pop_empty)
 	)
 	{
 		CU_cleanup_registry();
