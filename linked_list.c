@@ -25,15 +25,12 @@ void ll_push_elem(linked_list* list, linked_list* elem){
 void ll_pop(linked_list* list){
 	linked_list* pt = list;
 	linked_list* prev = NULL;
-	int i = 0;
 
 	if(pt->next == NULL){
-		printf("ain't no poping!\n");
 		return;
 	}
 
 	while(pt->next != NULL){
-		i++;
 		prev = pt;
 		pt = pt->next;
 	}
@@ -237,4 +234,45 @@ void ll_swap_index(linked_list** list, int index0, int index1){
 		ll_swap_index_general(*list, index0, index1);
 	}
 
+}
+
+void ll_reverse(linked_list **list){
+	linked_list* elem_prev = NULL;
+	linked_list* elem = *list;
+	linked_list* elem_next = NULL;
+
+	while(elem != NULL){
+		elem_next = elem->next;
+		elem->next = elem_prev;
+		elem_prev = elem;
+		elem = elem_next;
+	}
+	*list = elem_prev;
+}
+
+void ll_remove_data_sup(linked_list** list, int value){
+	// removes all elem with data > value
+
+	linked_list* pt = *list;
+	linked_list* pt_prev = NULL;
+
+	while (pt != NULL){
+		if(pt->data > value){
+			if(pt_prev != NULL){
+				pt_prev->next = pt->next;
+				free(pt);
+				pt = pt_prev->next;
+			}
+			else{ // this is the first elem
+				*list = pt->next;
+				free(pt);
+				pt = *list;
+			}
+
+		}
+		else{
+			pt_prev = pt;
+			pt = pt->next;
+		}
+	}
 }

@@ -15,5 +15,7 @@ void ll_add_index(linked_list** list,int index,linked_list* elem);
 void ll_print(linked_list* list);
 linked_list* ll_elem_at_index(linked_list* list, int index);
 void ll_swap_index(linked_list** list, int index0, int index1);
+void ll_reverse(linked_list **list);
+void ll_remove_data_sup(linked_list** list, int value);
 
 #endif

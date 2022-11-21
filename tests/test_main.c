@@ -379,6 +379,90 @@ void test_ll_swap_index_head_headp1(){
 	ll_free(HEAD);
 }
 
+void test_ll_reverse(){
+
+	linked_list* elem_HEAD = ll_get_new_elem(11);
+	linked_list* HEAD = elem_HEAD;
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(13);
+	linked_list* elem2 = ll_get_new_elem(14);
+	linked_list* elem3 = ll_get_new_elem(15);
+	linked_list* elem4 = ll_get_new_elem(16);
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+	ll_push_elem(HEAD,elem2);
+	ll_push_elem(HEAD,elem3);
+	ll_push_elem(HEAD,elem4);
+
+	/*ll_print(HEAD);*/
+	ll_reverse(&HEAD);
+	/*ll_print(HEAD);*/
+
+	CU_ASSERT( ll_elem_at_index(HEAD,0) == elem4);
+	CU_ASSERT( ll_elem_at_index(HEAD,1) == elem3);
+	CU_ASSERT( ll_elem_at_index(HEAD,2) == elem2);
+	CU_ASSERT( ll_elem_at_index(HEAD,3) == elem1);
+	CU_ASSERT( ll_elem_at_index(HEAD,4) == elem0);
+	CU_ASSERT( ll_elem_at_index(HEAD,5) == elem_HEAD);
+
+	ll_free(HEAD);
+}
+
+void test_ll_remove_data_sup(){
+
+	linked_list* elem_HEAD = ll_get_new_elem(11);
+	linked_list* HEAD = elem_HEAD;
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(15);
+	linked_list* elem2 = ll_get_new_elem(14);
+	linked_list* elem3 = ll_get_new_elem(16);
+	linked_list* elem4 = ll_get_new_elem(11);
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+	ll_push_elem(HEAD,elem2);
+	ll_push_elem(HEAD,elem3);
+	ll_push_elem(HEAD,elem4);
+
+	/*ll_print(HEAD);*/
+	ll_remove_data_sup(&HEAD,14);
+	/*ll_print(HEAD);*/
+
+	CU_ASSERT( ll_elem_at_index(HEAD,0) == elem_HEAD);
+	CU_ASSERT( ll_elem_at_index(HEAD,1) == elem0);
+	CU_ASSERT( ll_elem_at_index(HEAD,2) == elem2);
+	CU_ASSERT( ll_elem_at_index(HEAD,3) == elem4);
+
+	ll_free(HEAD);
+}
+
+void test_ll_remove_data_sup_edge(){
+
+	linked_list* elem_HEAD = ll_get_new_elem(16);
+	linked_list* HEAD = elem_HEAD;
+	linked_list* elem0 = ll_get_new_elem(12);
+	linked_list* elem1 = ll_get_new_elem(15);
+	linked_list* elem2 = ll_get_new_elem(14);
+	linked_list* elem3 = ll_get_new_elem(16);
+	linked_list* elem4 = ll_get_new_elem(18);
+
+	ll_push_elem(HEAD,elem0);
+	ll_push_elem(HEAD,elem1);
+	ll_push_elem(HEAD,elem2);
+	ll_push_elem(HEAD,elem3);
+	ll_push_elem(HEAD,elem4);
+
+	/*ll_print(HEAD);*/
+	ll_remove_data_sup(&HEAD,14);
+	/*ll_print(HEAD);*/
+
+	CU_ASSERT( ll_elem_at_index(HEAD,0) == elem0);
+	CU_ASSERT( ll_elem_at_index(HEAD,1) == elem2);
+
+	ll_free(HEAD);
+}
+
 int init_suite(void) { return 0; }
 int clean_suite(void) { return 0; }
 
@@ -414,7 +498,10 @@ int main()
 		NULL == CU_add_test(pSuite, "test_ll_swap_index_general_edge()", test_ll_swap_index_general_edge)||
 		NULL == CU_add_test(pSuite, "test_ll_swap_index_glued_edge()", test_ll_swap_index_glued_edge)||
 		NULL == CU_add_test(pSuite, "test_ll_swap_index_head()", test_ll_swap_index_head)||
-		NULL == CU_add_test(pSuite, "test_ll_swap_index_head_headp1()", test_ll_swap_index_head_headp1)
+		NULL == CU_add_test(pSuite, "test_ll_swap_index_head_headp1()", test_ll_swap_index_head_headp1)||
+		NULL == CU_add_test(pSuite, "test_ll_reverse()", test_ll_reverse)||
+		NULL == CU_add_test(pSuite, "test_ll_remove_data_sup()", test_ll_remove_data_sup)||
+		NULL == CU_add_test(pSuite, "test_ll_remove_data_sup_edge()", test_ll_remove_data_sup_edge)
 	)
 	{
 		CU_cleanup_registry();
