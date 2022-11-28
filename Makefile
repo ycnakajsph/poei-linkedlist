@@ -12,5 +12,9 @@ test_ll_debug:
 test_d_ll_debug:
 	$(CC) $(LDFLAGS)  -o debug_d_ll_tests $(CFLAGS) $(DEBUG_FLAGS) tests/test_d_ll_main.c $(CFILES) -lcunit
 
+lib:
+	$(CC) -fPIC -c $(CFLAGS) $(CFILES)
+	$(CC) -shared -o liblinkedlist.so *.o
+
 clean:
-	rm -f *.o linked_list_tests linked_list
+	rm -f *.o linked_list_tests linked_list *.so
