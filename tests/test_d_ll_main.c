@@ -59,7 +59,9 @@ void test_d_ll_pop(){
 	d_ll_pop(HEAD);
 
 	CU_ASSERT(elem0->next == NULL);
+	CU_ASSERT(elem0->prev == HEAD);
 	CU_ASSERT(HEAD->next == elem0);
+	CU_ASSERT(HEAD->prev == NULL);
 
 	free(elem0);
 	free(HEAD);
@@ -73,6 +75,80 @@ void test_d_ll_free(){
 
 	d_ll_push_elem(HEAD,elem0);
 	d_ll_push_elem(HEAD,elem1);
+
+	d_ll_free(HEAD); // Usefull only with valgrind
+
+}
+
+void test_d_ll_add_index_0(){
+
+	double_linked_list* HEAD = d_ll_get_new_elem(11);
+	double_linked_list* init_HEAD = HEAD;
+	double_linked_list* elem0 = d_ll_get_new_elem(12);
+	double_linked_list* elem1 = d_ll_get_new_elem(13);
+	double_linked_list* elem2 = d_ll_get_new_elem(14);
+	double_linked_list* elem_add = d_ll_get_new_elem(100);
+
+	d_ll_push_elem(HEAD,elem0);
+	d_ll_push_elem(HEAD,elem1);
+	d_ll_push_elem(HEAD,elem2);
+
+	/*d_ll_print(HEAD);*/
+	d_ll_add_index(&HEAD,0,elem_add);
+	/*d_ll_print(HEAD);*/
+
+	CU_ASSERT(HEAD == elem_add);
+	CU_ASSERT(HEAD->prev == NULL);
+	CU_ASSERT(HEAD->next == init_HEAD);
+
+	d_ll_free(HEAD);
+
+}
+
+void test_d_ll_add_index(){
+
+	double_linked_list* HEAD = d_ll_get_new_elem(11);
+	double_linked_list* elem0 = d_ll_get_new_elem(12);
+	double_linked_list* elem1 = d_ll_get_new_elem(13);
+	double_linked_list* elem2 = d_ll_get_new_elem(14);
+	double_linked_list* elem_add = d_ll_get_new_elem(100);
+
+	d_ll_push_elem(HEAD,elem0);
+	d_ll_push_elem(HEAD,elem1);
+	d_ll_push_elem(HEAD,elem2);
+
+	/*d_ll_print(HEAD);*/
+	d_ll_add_index(&HEAD,2,elem_add);
+	/*d_ll_print(HEAD);*/
+
+	CU_ASSERT(elem0->next == elem_add);
+	CU_ASSERT(elem_add->prev == elem0);
+	CU_ASSERT(elem_add->next == elem1);
+	CU_ASSERT(elem1->prev == elem_add);
+
+	d_ll_free(HEAD); // Usefull only with valgrind
+
+}
+
+void test_d_ll_add_index_last(){
+
+	double_linked_list* HEAD = d_ll_get_new_elem(11);
+	double_linked_list* elem0 = d_ll_get_new_elem(12);
+	double_linked_list* elem1 = d_ll_get_new_elem(13);
+	double_linked_list* elem2 = d_ll_get_new_elem(14);
+	double_linked_list* elem_add = d_ll_get_new_elem(100);
+
+	d_ll_push_elem(HEAD,elem0);
+	d_ll_push_elem(HEAD,elem1);
+	d_ll_push_elem(HEAD,elem2);
+
+	/*d_ll_print(HEAD);*/
+	d_ll_add_index(&HEAD,4,elem_add); // >= len
+	/*d_ll_print(HEAD);*/
+
+	CU_ASSERT(elem2->next == elem_add);
+	CU_ASSERT(elem_add->next == NULL);
+	CU_ASSERT(elem_add->prev == elem2);
 
 	d_ll_free(HEAD); // Usefull only with valgrind
 
@@ -101,7 +177,10 @@ int main()
 		NULL == CU_add_test(pSuite, "test_d_ll_get_new_elem()", test_d_ll_get_new_elem) ||
 		NULL == CU_add_test(pSuite, "test_d_ll_push_elem()", test_d_ll_push_elem)||
 		NULL == CU_add_test(pSuite, "test_d_ll_pop()", test_d_ll_pop)||
-		NULL == CU_add_test(pSuite, "test_d_ll_free()", test_d_ll_free)
+		NULL == CU_add_test(pSuite, "test_d_ll_free()", test_d_ll_free)||
+		NULL == CU_add_test(pSuite, "test_d_ll_add_index_0()", test_d_ll_add_index_0)||
+		NULL == CU_add_test(pSuite, "test_d_ll_add_index()", test_d_ll_add_index)||
+		NULL == CU_add_test(pSuite, "test_d_ll_add_index_last()", test_d_ll_add_index_last)
 	)
 	{
 		CU_cleanup_registry();

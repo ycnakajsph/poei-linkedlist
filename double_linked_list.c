@@ -77,3 +77,38 @@ int d_ll_length(double_linked_list* list){
 
 	return len;
 }
+
+
+void d_ll_add_index(double_linked_list** list,int index,double_linked_list* elem){
+	double_linked_list* pt = *list;
+	double_linked_list* tmp;
+	int id = 0;
+	int len;
+
+	if(index == 0){ // in case we want to replace the first elem
+		elem->next = *list;
+		elem->prev = NULL;
+		*list = elem;
+		return;
+	}
+
+	len = d_ll_length(*list);
+
+	if (index >= len){
+		d_ll_push_elem(*list,elem);
+		return;
+	}
+
+	while (pt != NULL && id != index - 1 && id < len-1){
+		pt = pt->next;
+		id++;
+	}
+
+	tmp = pt->next;
+	tmp->prev = elem;
+	pt->next = elem;
+	elem->next = tmp;
+	elem->prev = pt;
+
+	/*pt elem tmp*/
+}
